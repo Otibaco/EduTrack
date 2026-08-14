@@ -79,7 +79,11 @@
 
             <h1>
                 Everything you need to
+<<<<<<< HEAD
                 <span>manage friends.</span>
+=======
+                <span>manage people.</span>
+>>>>>>> ae9e5779ea4c45f707ed4fea25f892398beff096
             </h1>
 
             <p>
