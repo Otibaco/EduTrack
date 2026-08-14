@@ -32,7 +32,7 @@ logs/
 .phpunit.result.cache
 
 # Java
-.java
+*.java
 
 # Database files / local data
 *.sqlite
