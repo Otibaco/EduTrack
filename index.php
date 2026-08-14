@@ -79,7 +79,7 @@
 
             <h1>
                 Everything you need to
-                <span>manage students.</span>
+                <span>manage people.</span>
             </h1>
 
             <p>
