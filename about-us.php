@@ -377,7 +377,7 @@
         </div>
         <div class="footer-column">
             <h4>Company</h4>
-            <a href="about.php">About</a>
+            <a href="about-us.php">About</a>
             <a href="index.php#overview">Overview</a>
             <a href="index.php#contact">Contact</a>
         </div>
