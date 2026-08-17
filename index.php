@@ -79,7 +79,7 @@
 
             <h1>
                 Everything you need to
-                <span>manage friends.</span>
+                <span>manage students.</span>
             </h1>
 
             <p>
