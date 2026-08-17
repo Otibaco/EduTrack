@@ -1,0 +1,371 @@
+ /* =========================================================
+           ADD-ON STYLES (About Page Specific)
+        ========================================================= */
+
+        /* --- Hero Enhancements --- */
+        .about-hero-wrapper {
+            text-align: center;
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .trust-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 18px 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 12px;
+            color: var(--text-soft);
+            margin-bottom: 30px;
+        }
+
+        .trust-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--success);
+            display: inline-block;
+        }
+
+        .about-hero-wrapper h1 {
+            font-size: clamp(44px, 5.5vw, 72px);
+            line-height: 1.02;
+            letter-spacing: -0.045em;
+            margin-bottom: 20px;
+        }
+
+        .about-hero-wrapper h1 span {
+            background: linear-gradient(90deg, #8f84ff, #b4adff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .about-hero-wrapper p {
+            font-size: 18px;
+            color: var(--text-soft);
+            line-height: 1.8;
+            max-width: 680px;
+            margin: 0 auto 32px;
+        }
+
+        /* --- Impact Stats --- */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .impact-item {
+            text-align: center;
+            padding: 30px 20px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .impact-item:hover {
+            transform: translateY(-6px);
+            border-color: rgba(109, 93, 252, 0.4);
+        }
+
+        .impact-item .number {
+            display: block;
+            font-family: var(--heading-font);
+            font-size: 44px;
+            font-weight: 700;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff, #a4adbd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .impact-item .label {
+            display: block;
+            margin-top: 8px;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* --- Mission Cards (Enhanced) --- */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .mission-card {
+            padding: 40px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), #927dff);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mission-card:hover::before {
+            opacity: 1;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(109, 93, 252, 0.3);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .mission-card .icon {
+            font-size: 36px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .mission-card h3 {
+            font-family: var(--heading-font);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .mission-card p {
+            color: var(--text-soft);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* --- Timeline --- */
+        .timeline {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 30px;
+            padding-left: 30px;
+            padding-bottom: 45px;
+            border-left: 2px solid rgba(109, 93, 252, 0.3);
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+            border-left-color: transparent;
+        }
+
+        .timeline-item::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            left: -9px;
+            top: 0;
+            box-shadow: 0 0 20px rgba(109, 93, 252, 0.3);
+        }
+
+        .timeline-item .year {
+            min-width: 80px;
+            font-family: var(--heading-font);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-light);
+        }
+
+        .timeline-item .content h4 {
+            font-family: var(--heading-font);
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .timeline-item .content p {
+            color: var(--text-soft);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* --- Team Grid --- */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-card {
+            text-align: center;
+            padding: 30px 20px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            transition: all 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(109, 93, 252, 0.4);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(135deg, var(--primary), #927dff);
+        }
+
+        .team-card h4 {
+            font-family: var(--heading-font);
+            font-size: 17px;
+            margin-bottom: 2px;
+        }
+
+        .team-card .role {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .team-socials {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .team-socials a {
+            width: 32px;
+            height: 32px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            font-size: 12px;
+            color: var(--text-soft);
+            transition: all 0.2s ease;
+        }
+
+        .team-socials a:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* --- Tech Pills (Replaces old stats grid) --- */
+        .tech-pills-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .tech-pill {
+            display: inline-block;
+            padding: 10px 28px;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            background: var(--bg-soft);
+            color: var(--text-soft);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .tech-pill:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(109, 93, 252, 0.25);
+        }
+
+        /* --- Responsive Tweaks --- */
+        @media (max-width: 1000px) {
+            .impact-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 750px) {
+            .mission-grid {
+                grid-template-columns: 1fr;
+            }
+            .impact-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .impact-item .number {
+                font-size: 32px;
+            }
+            .team-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+            .timeline-item {
+                flex-direction: column;
+                gap: 6px;
+                padding-left: 20px;
+                padding-bottom: 30px;
+            }
+            .timeline-item .year {
+                min-width: auto;
+                font-size: 16px;
+            }
+            .tech-pill {
+                padding: 8px 18px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+                max-width: 280px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .impact-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .impact-item {
+                padding: 20px 10px;
+            }
+            .impact-item .number {
+                font-size: 28px;
+            }
+        }

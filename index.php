@@ -40,7 +40,7 @@
             <a href="#home">Home</a>
             <a href="#features">Features</a>
             <a href="#overview">Overview</a>
-            <a href="#about">About</a>
+            <a href="about-us.php">About</a>
         </nav>
 
         <div class="nav-actions">
