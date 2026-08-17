@@ -44,7 +44,7 @@
         </nav>
 
         <div class="nav-actions">
-            <a href="login.php" class="login-link">Sign in</a>
+            <a href="signup.php" class="login-link">Sign in</a>
 
             <a href="dashboard.php" class="btn btn-primary">
                 Open Dashboard
@@ -725,7 +725,7 @@
             <h4>Account</h4>
 
             <a href="login.php">Sign In</a>
-            <a href="register.php">Register</a>
+            <a href="signup.php">Register</a>
             <a href="students.php">Dashboard</a>
 
         </div>
