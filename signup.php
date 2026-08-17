@@ -185,6 +185,7 @@ $conn->close();
 </head>
 
 
+
 <body class="signup-page">
 
 <!-- =====================================================
@@ -572,11 +573,11 @@ $conn->close();
 
                     <span>
                         I agree to the
-                        <a href="#">
+                        <a href="termsofservice.php">
                             Terms of Service
                         </a>
                         and
-                        <a href="#">
+                        <a href="Privacy.php">
                             Privacy Policy
                         </a>.
                     </span>
@@ -586,21 +587,21 @@ $conn->close();
 
                 <!-- SUBMIT -->
 
-                <button
+             <a href="index.php"
                     type="submit"
                     class="btn btn-primary signup-submit"
                     id="submitButton"
                 >
 
                     <span id="buttonText">
-                        Create account
+                       Create account
                     </span>
 
                     <span class="button-arrow">
                         →
                     </span>
 
-                </button>
+            </a>
 
 
             </form>

@@ -18,7 +18,7 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
         rel="stylesheet"
     >
-<link rel="stylesheet" href="./assets/style/dashboard.css">
+    <link rel="stylesheet" href="./assets/style/dashboard.css">
 </head>
 
 <body>
@@ -48,21 +48,19 @@
         <a href="add-student.php">
             <span class="nav-icon">➕</span> Add Student
         </a>
-        <a href="about.php">
-            <span class="nav-icon">ℹ️</span> About
-        </a>
+     
         <a href="index.php" style="margin-top: auto;">
-            <span class="nav-icon">🏠</span> Visit Site
+            <span class="nav-icon">🏠</span> Back to Home
         </a>
-        <a href="login.php" style="color: #ff6b6b;">
+        <a href="logout.php" style="color: #ff6b6b;">
             <span class="nav-icon">🚪</span> Logout
         </a>
     </nav>
 
     <div class="sidebar-user">
-        <div class="avatar">AK</div>
+        <div class="avatar">SM</div>
         <div class="user-info">
-            <strong>Amara Kalu</strong>
+            <strong>Samuel Molokwu</strong>
             <small>Administrator</small>
         </div>
     </div>
@@ -78,12 +76,12 @@
     <header class="dashboard-topbar">
         <div class="greeting">
             <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle sidebar">☰</button>
-            <h1>Welcome back, <span>Amara</span> 👋</h1>
+            <h1>Welcome back, <span>Samuel</span> 👋</h1>
             <p>Here's what's happening with your students today.</p>
         </div>
         <div class="topbar-actions">
             <input type="text" class="search-box" placeholder="Search students...">
-            <div class="topbar-avatar">AK</div>
+            <div class="topbar-avatar">SM</div>
         </div>
     </header>
 
