@@ -212,7 +212,7 @@
     <div class="quick-actions">
         <a href="add-student.php" class="btn btn-primary">➕ Add New Student</a>
         <a href="students.php" class="btn btn-secondary">👥 View All Students</a>
-        <a href="#" class="btn btn-secondary">📄 Generate Report</a>
+        <a href="report.php" class="btn btn-secondary">📄 Generate Report</a>
     </div>
 
 </main>

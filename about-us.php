@@ -36,7 +36,8 @@
             <a href="index.php#home">Home</a>
             <a href="index.php#features">Features</a>
             <a href="index.php#overview">Overview</a>
-            <a href="about.php" style="color: white;">About</a>
+            <a href="about-us.php" style="color: white;">About</a>
+              <a href="contact.php" >Contact</a>
         </nav>
         <div class="nav-actions">
             <a href="login.php" class="login-link">Sign in</a>

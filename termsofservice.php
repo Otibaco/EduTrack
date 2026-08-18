@@ -19,216 +19,7 @@
         rel="stylesheet"
     >
 
-    <style>
-        /* =========================================================
-           TERMS PAGE SPECIFIC STYLES
-        ========================================================= */
-
-        .terms-hero {
-            padding: 80px 0 50px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .terms-hero .glow {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.1;
-            pointer-events: none;
-        }
-
-        .terms-hero .glow-one {
-            top: -200px;
-            left: -100px;
-            background: var(--primary);
-        }
-
-        .terms-hero .glow-two {
-            right: -100px;
-            bottom: -200px;
-            background: #4c9cff;
-        }
-
-        .terms-hero h1 {
-            font-family: var(--heading-font);
-            font-size: clamp(36px, 4.5vw, 54px);
-            letter-spacing: -0.04em;
-            position: relative;
-            z-index: 2;
-        }
-
-        .terms-hero h1 span {
-            color: var(--primary-light);
-        }
-
-        .terms-hero p {
-            color: var(--text-soft);
-            font-size: 16px;
-            margin-top: 12px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 2;
-        }
-
-        .terms-hero .last-updated {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 6px 18px;
-            border: 1px solid var(--border);
-            border-radius: 50px;
-            font-size: 12px;
-            color: var(--text-muted);
-            position: relative;
-            z-index: 2;
-        }
-
-        .terms-content {
-            padding: 40px 0 100px;
-        }
-
-        .terms-content .container {
-            max-width: 820px;
-        }
-
-        .terms-section {
-            margin-bottom: 48px;
-            padding-bottom: 48px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .terms-section:last-child {
-            border-bottom: 0;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .terms-section .section-number {
-            display: inline-block;
-            font-family: var(--heading-font);
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--primary-light);
-            margin-bottom: 10px;
-            letter-spacing: 0.05em;
-        }
-
-        .terms-section h2 {
-            font-family: var(--heading-font);
-            font-size: 24px;
-            margin-bottom: 14px;
-            letter-spacing: -0.02em;
-        }
-
-        .terms-section p {
-            color: var(--text-soft);
-            font-size: 15px;
-            line-height: 1.8;
-            margin-bottom: 12px;
-        }
-
-        .terms-section p:last-child {
-            margin-bottom: 0;
-        }
-
-        .terms-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 12px 0 6px;
-        }
-
-        .terms-section ul li {
-            position: relative;
-            padding-left: 28px;
-            margin-bottom: 10px;
-            color: var(--text-soft);
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .terms-section ul li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--primary-light);
-            font-weight: 700;
-        }
-
-        .terms-section .highlight-box {
-            padding: 20px 24px;
-            border: 1px solid rgba(109, 93, 252, 0.2);
-            border-radius: var(--radius-md);
-            background: rgba(109, 93, 252, 0.04);
-            margin: 16px 0 6px;
-        }
-
-        .terms-section .highlight-box p {
-            margin-bottom: 0;
-            font-size: 14px;
-        }
-
-        .terms-section .highlight-box strong {
-            color: white;
-        }
-
-        .back-to-top {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
-            color: var(--primary-light);
-            font-size: 13px;
-            font-weight: 600;
-            transition: color 0.2s ease;
-        }
-
-        .back-to-top:hover {
-            color: white;
-        }
-
-        /* =========================================================
-           RESPONSIVE
-        ========================================================= */
-
-        @media (max-width: 750px) {
-            .terms-hero {
-                padding: 60px 0 30px;
-            }
-
-            .terms-content {
-                padding: 20px 0 60px;
-            }
-
-            .terms-section h2 {
-                font-size: 20px;
-            }
-
-            .terms-section p,
-            .terms-section ul li {
-                font-size: 14px;
-            }
-
-            .terms-section .highlight-box {
-                padding: 16px 18px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .terms-hero h1 {
-                font-size: 30px;
-            }
-
-            .terms-section {
-                margin-bottom: 32px;
-                padding-bottom: 32px;
-            }
-        }
-    </style>
+<link rel="stylesheet" href="./assets/style/termsofservice.css">
 </head>
 
 <body>
@@ -246,19 +37,11 @@
             <span class="logo-text">Edu<span>Track</span></span>
         </a>
 
-        <nav class="nav-links">
-            <a href="index.php#home">Home</a>
-            <a href="index.php#features">Features</a>
-            <a href="index.php#overview">Overview</a>
-            <a href="about.php">About</a>
-        </nav>
+    
 
         <div class="nav-actions">
             <a href="login.php" class="login-link">Sign in</a>
-            <a href="students.php" class="btn btn-primary">
-                Open Dashboard
-                <span>→</span>
-            </a>
+          
         </div>
 
     </div>
@@ -571,9 +354,9 @@
 
             <h4>Company</h4>
 
-            <a href="about.php">About</a>
-            <a href="index.php#overview">Overview</a>
-            <a href="#">Contact</a>
+            <a href="about-us.php">About</a>
+        
+            <a href="contact.php">Contact</a>
 
         </div>
 
@@ -581,9 +364,9 @@
 
             <h4>Legal</h4>
 
-            <a href="terms.php" style="color: var(--primary-light);">Terms of Service</a>
+            <a href="termsofservice.php" style="color: var(--primary-light);">Terms of Service</a>
             <a href="privacy.php">Privacy Policy</a>
-            <a href="#">Cookie Policy</a>
+       
 
         </div>
 
