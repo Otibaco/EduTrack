@@ -37,16 +37,17 @@
         </a>
 
         <nav class="nav-links">
-            <a href="#home">Home</a>
+            <a href="#home" style="color:white;">Home</a>
             <a href="#features">Features</a>
             <a href="#overview">Overview</a>
             <a href="about-us.php">About</a>
+                <a href="contact.php" >Contact</a>
         </nav>
 
         <div class="nav-actions">
             <a href="signup.php" class="login-link">Sign in</a>
 
-            <a href="students.php" class="btn btn-primary">
+            <a href="dashboard.php" class="btn btn-primary">
                 Open Dashboard
                 <span>→</span>
             </a>
@@ -659,7 +660,7 @@
                 Start managing your students from one simple dashboard.
             </p>
 
-            <a href="students.php" class="btn btn-light btn-large">
+            <a href="dashboard.php" class="btn btn-light btn-large">
                 Open EduTrack
                 <span>→</span>
             </a>
@@ -716,7 +717,7 @@
 
             <a href="#about">About</a>
             <a href="#overview">Overview</a>
-            <a href="#contact">Contact</a>
+            <a href="contact.php">Contact</a>
 
         </div>
 
@@ -727,7 +728,7 @@
 
             <a href="login.php">Sign In</a>
             <a href="signup.php">Register</a>
-            <a href="students.php">Dashboard</a>
+            <a href="dashboard.php">Dashboard</a>
 
         </div>
 

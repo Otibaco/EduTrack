@@ -468,14 +468,14 @@ $conn->close();
 
                     <!-- SUBMIT -->
 
-                    <button
+                    <a href="index.php"
                         type="submit"
                         class="btn btn-primary login-submit"
                         id="loginButton">
 
 
                         <span id="buttonText">
-                            Sign in
+                            Log in
                         </span>
 
 
@@ -484,7 +484,7 @@ $conn->close();
                         </span>
 
 
-                    </button>
+                </a>
 
 
                 </form>
