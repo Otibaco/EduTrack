@@ -81,6 +81,7 @@
                 Everything you need to
                 <span>manage students.</span>
             </h1>
+            
 
             <p>
                 EduTrack gives schools and educators a simple,
