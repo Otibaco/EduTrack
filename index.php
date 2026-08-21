@@ -328,7 +328,7 @@
                     </p>
                 </div>
 
-                <a href="students.php" class="feature-link">
+                <a href="student.php" class="feature-link">
                     Manage records →
                 </a>
 
@@ -346,7 +346,7 @@
                     searching through endless paperwork.
                 </p>
 
-                <a href="students.php" class="feature-link">
+                <a href="student.php" class="feature-link">
                     Explore →
                 </a>
 
@@ -364,7 +364,7 @@
                     details change.
                 </p>
 
-                <a href="students.php" class="feature-link">
+                <a href="student.php" class="feature-link">
                     Explore →
                 </a>
 
@@ -400,7 +400,7 @@
                     from one intuitive interface.
                 </p>
 
-                <a href="students.php" class="feature-link">
+                <a href="student.php" class="feature-link">
                     Open dashboard →
                 </a>
 
@@ -506,7 +506,7 @@
 
             </div>
 
-            <a href="students.php" class="btn btn-primary">
+            <a href="student.php" class="btn btn-primary">
                 View Students →
             </a>
 
@@ -704,7 +704,7 @@
 
             <h4>Platform</h4>
 
-            <a href="students.php">Students</a>
+            <a href="student.php">Students</a>
             <a href="add-student.php">Add Student</a>
             <a href="#features">Features</a>
 
@@ -716,7 +716,6 @@
             <h4>Company</h4>
 
             <a href="#about">About</a>
-            <a href="#overview">Overview</a>
             <a href="contact.php">Contact</a>
 
         </div>
@@ -724,11 +723,10 @@
 
         <div class="footer-column">
 
-            <h4>Account</h4>
+            <h4>Legal</h4>
 
-            <a href="login.php">Sign In</a>
-            <a href="signup.php">Register</a>
-            <a href="dashboard.php">Dashboard</a>
+            <a href="termsofservice.php">Terms of Service</a>
+            <a href="Privacy.php">Privacy Policy</a>
 
         </div>
 
@@ -748,7 +746,6 @@
     </div>
 
 </footer>
-
 
 </body>
 </html>

@@ -1,23 +1,3 @@
-<?php
-
-$message = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $student_id = $_POST["student_id"];
-    $first_name = $_POST["first_name"];
-    $last_name = $_POST["last_name"];
-    $email = $_POST["email"];
-    $phone = $_POST["phone"];
-    $department = $_POST["department"];
-    $level = $_POST["level"];
-    $gender = $_POST["gender"];
-    $date_of_birth = $_POST["date_of_birth"];
-
-    $message = "Student added successfully!";
-}
-
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -368,6 +348,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
     </footer>
+<?php
+
+$message = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $student_id = $_POST["student_id"];
+    $first_name = $_POST["first_name"];
+    $last_name = $_POST["last_name"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $department = $_POST["department"];
+    $level = $_POST["level"];
+    $gender = $_POST["gender"];
+    $date_of_birth = $_POST["date_of_birth"];
+
+    $message = "Student added successfully!";
+}
+
+?>
 
 </body>
 
