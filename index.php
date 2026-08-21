@@ -47,7 +47,7 @@
         <div class="nav-actions">
             <a href="signup.php" class="login-link">Sign in</a>
 
-            <a href="dashboard.php" class="btn btn-primary">
+            <a href="./dashboard/dashboard.php" class="btn btn-primary">
                 Open Dashboard
                 <span>→</span>
             </a>

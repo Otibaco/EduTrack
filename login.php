@@ -138,7 +138,7 @@
                     </h2>
 
                     <p>
-                        Sign in to your EduTrack account.
+                        Login to your EduTrack account.
                     </p>
 
                 </div>
@@ -294,7 +294,7 @@
                 >
 
                     <span id="buttonText">
-                        Sign in
+                        Login
                     </span>
 
                     <span class="button-arrow">

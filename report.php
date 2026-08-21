@@ -1,5 +1,105 @@
 <?php
 // report.php - Generate Student Reports
+// =========================================================
+// DATABASE CONNECTION
+// =========================================================
+
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "edutrack";
+
+$conn = new mysqli($host, $username, $password, $database);
+
+if ($conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
+}
+
+// =========================================================
+// GET FILTERS FROM URL
+// =========================================================
+
+$department_filter = isset($_GET['department']) ? trim($_GET['department']) : 'all';
+$status_filter = isset($_GET['status']) ? trim($_GET['status']) : 'all';
+$date_filter = isset($_GET['date']) ? trim($_GET['date']) : '';
+$search_filter = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+// =========================================================
+// BUILD QUERY
+// =========================================================
+
+$sql = "SELECT * FROM students WHERE 1=1";
+$params = [];
+$types = "";
+
+if ($department_filter !== 'all' && !empty($department_filter)) {
+    $sql .= " AND department = ?";
+    $params[] = $department_filter;
+    $types .= "s";
+}
+
+if ($status_filter !== 'all' && !empty($status_filter)) {
+    $sql .= " AND status = ?";
+    $params[] = $status_filter;
+    $types .= "s";
+}
+
+if (!empty($date_filter)) {
+    $sql .= " AND enrollment_date >= ?";
+    $params[] = $date_filter . "-01";
+    $types .= "s";
+}
+
+if (!empty($search_filter)) {
+    $sql .= " AND (name LIKE ? OR student_id LIKE ? OR department LIKE ?)";
+    $search_param = "%$search_filter%";
+    $params[] = $search_param;
+    $params[] = $search_param;
+    $params[] = $search_param;
+    $types .= "sss";
+}
+
+$sql .= " ORDER BY id DESC";
+
+// Prepare and execute
+$stmt = $conn->prepare($sql);
+if (!empty($params)) {
+    $stmt->bind_param($types, ...$params);
+}
+$stmt->execute();
+$result = $stmt->get_result();
+
+$students = [];
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $students[] = $row;
+    }
+}
+$stmt->close();
+
+// =========================================================
+// CALCULATE SUMMARY STATS
+// =========================================================
+
+$total = count($students);
+$active = 0;
+$inactive = 0;
+$departments = [];
+
+foreach ($students as $s) {
+    if (strtolower($s['status']) === 'active') {
+        $active++;
+    } elseif (strtolower($s['status']) === 'inactive' || strtolower($s['status']) === 'graduated') {
+        $inactive++;
+    }
+    if (!in_array($s['department'], $departments)) {
+        $departments[] = $s['department'];
+    }
+}
+$dept_count = count($departments);
+
+$conn->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +111,7 @@
     <!-- Main Theme Stylesheet -->
     <link rel="stylesheet" href="./assets/style/style.css">
 
-    <!-- Dashboard Layout Styles (separate file, just like yours) -->
+    <!-- Dashboard Layout Styles -->
     <link rel="stylesheet" href="./assets/style/dashboard.css">
 
     <!-- Fonts -->
@@ -21,11 +121,8 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
         rel="stylesheet"
     >
-<link rel="stylesheet" href="./assets/style/dash.css">
-    <!-- Report-specific styles (kept inline since they're unique to this page) -->
-    <style>
-   
-    </style>
+
+ <link rel="stylesheet" href="./assets/style/report.css">k
 </head>
 
 <body>
@@ -36,7 +133,7 @@
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <!-- =========================================================
-     SIDEBAR (Matches your updated dashboard.php EXACTLY)
+     SIDEBAR
 ========================================================= -->
 <aside class="dashboard-sidebar" id="dashboardSidebar">
 
@@ -46,19 +143,18 @@
     </div>
 
     <nav class="sidebar-nav">
-        <!-- FIXED: Removed the stray ./ and backtick that was in your dashboard -->
-        <a href="dashboard.php">
+        <a href="./dashboard/dashboard.php">
             <span class="nav-icon">📊</span> Dashboard
         </a>
         <a href="students.php">
             <span class="nav-icon">👥</span> Students
         </a>
-        <a href="add-student.php">
-            <span class="nav-icon">➕</span> Add Student
-        </a>
-        <!-- Report link is ACTIVE on this page -->
+       
         <a href="report.php" class="active">
             <span class="nav-icon">📄</span> Reports
+        </a>
+        <a href="add-student.php">
+            <span class="nav-icon">➕</span> Add Student
         </a>
         <a href="index.php" style="margin-top: auto;">
             <span class="nav-icon">🏠</span> Back to home
@@ -69,9 +165,9 @@
     </nav>
 
     <div class="sidebar-user">
-        <div class="avatar">S</div>
+        <div class="avatar">SM</div>
         <div class="user-info">
-            <strong>Student</strong>
+            <strong>Samuel Molokwu</strong>
             <small>Administrator</small>
         </div>
     </div>
@@ -83,158 +179,141 @@
 ========================================================= -->
 <main class="dashboard-main">
 
-    <!-- Top Bar (Matches your updated dashboard EXACTLY) -->
+    <!-- Top Bar -->
     <header class="dashboard-topbar">
         <div class="greeting">
             <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle sidebar">☰</button>
             <h1>📄 <span>Generate Report</span></h1>
-            <!-- Removed the subtitle paragraph to match your dashboard -->
+            <p>Filter, preview, and export student data.</p>
         </div>
         <div class="topbar-actions">
-            <input type="text" class="search-box" placeholder="Search students...">
-            <div class="topbar-avatar">S</div>
+            <div class="topbar-avatar">SM</div>
         </div>
     </header>
 
-    <!-- =========================
+    <!-- =========================================================
          FILTER SECTION
-    ========================= -->
+    ========================================================= -->
     <section class="report-card">
         <div class="card-title">🔍 Filter Criteria</div>
 
-        <form id="reportForm" onsubmit="event.preventDefault(); generateReport();">
+        <form method="GET" action="report.php" id="filterForm">
             <div class="filter-grid">
                 <div class="filter-group">
                     <label for="department">Department</label>
-                    <select id="department">
-                        <option value="all">All Departments</option>
-                        <option value="cs">Computer Science</option>
-                        <option value="se">Software Engineering</option>
-                        <option value="it">Information Technology</option>
-                        <option value="math">Mathematics</option>
-                        <option value="physics">Physics</option>
+                    <select id="department" name="department">
+                        <option value="all" <?php echo $department_filter === 'all' ? 'selected' : ''; ?>>All Departments</option>
+                        <option value="Computer Science" <?php echo $department_filter === 'Computer Science' ? 'selected' : ''; ?>>Computer Science</option>
+                        <option value="Software Engineering" <?php echo $department_filter === 'Software Engineering' ? 'selected' : ''; ?>>Software Engineering</option>
+                        <option value="Information Technology" <?php echo $department_filter === 'Information Technology' ? 'selected' : ''; ?>>Information Technology</option>
+                        <option value="Mathematics" <?php echo $department_filter === 'Mathematics' ? 'selected' : ''; ?>>Mathematics</option>
+                        <option value="Physics" <?php echo $department_filter === 'Physics' ? 'selected' : ''; ?>>Physics</option>
+                        <option value="Chemistry" <?php echo $department_filter === 'Chemistry' ? 'selected' : ''; ?>>Chemistry</option>
+                        <option value="Biology" <?php echo $department_filter === 'Biology' ? 'selected' : ''; ?>>Biology</option>
+                        <option value="Business Administration" <?php echo $department_filter === 'Business Administration' ? 'selected' : ''; ?>>Business Administration</option>
+                        <option value="Economics" <?php echo $department_filter === 'Economics' ? 'selected' : ''; ?>>Economics</option>
+                        <option value="Psychology" <?php echo $department_filter === 'Psychology' ? 'selected' : ''; ?>>Psychology</option>
                     </select>
                 </div>
 
                 <div class="filter-group">
                     <label for="status">Status</label>
-                    <select id="status">
-                        <option value="all">All Statuses</option>
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive / Graduated</option>
+                    <select id="status" name="status">
+                        <option value="all" <?php echo $status_filter === 'all' ? 'selected' : ''; ?>>All Statuses</option>
+                        <option value="Active" <?php echo $status_filter === 'Active' ? 'selected' : ''; ?>>Active</option>
+                        <option value="Inactive" <?php echo $status_filter === 'Inactive' ? 'selected' : ''; ?>>Inactive</option>
+                        <option value="Graduated" <?php echo $status_filter === 'Graduated' ? 'selected' : ''; ?>>Graduated</option>
+                        <option value="Pending" <?php echo $status_filter === 'Pending' ? 'selected' : ''; ?>>Pending</option>
                     </select>
                 </div>
 
                 <div class="filter-group">
-                    <label for="dateRange">Enrollment Date</label>
-                    <input type="month" id="dateRange" value="2026-07">
+                    <label for="date">Enrollment Date (from)</label>
+                    <input type="month" id="date" name="date" value="<?php echo htmlspecialchars($date_filter); ?>">
                 </div>
 
                 <div class="filter-actions">
                     <button type="submit" class="btn btn-primary">🔄 Generate</button>
-                    <button type="reset" class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+                    <a href="report.php" class="btn btn-secondary">Reset</a>
                 </div>
             </div>
+
+            <!-- Hidden search field to preserve search term if needed -->
+            <input type="hidden" name="search" value="<?php echo htmlspecialchars($search_filter); ?>">
         </form>
     </section>
 
-    <!-- =========================
+    <!-- =========================================================
          SUMMARY STATS
-    ========================= -->
-    <div class="report-summary" id="summaryStats">
+    ========================================================= -->
+    <div class="report-summary">
         <div class="summary-item highlight">
-            <strong id="totalCount">48</strong>
+            <strong><?php echo $total; ?></strong>
             <span>Total Records</span>
         </div>
         <div class="summary-item">
-            <strong id="activeCount">42</strong>
+            <strong><?php echo $active; ?></strong>
             <span>Active</span>
         </div>
         <div class="summary-item">
-            <strong id="inactiveCount">6</strong>
-            <span>Inactive</span>
+            <strong><?php echo $inactive; ?></strong>
+            <span>Inactive / Graduated</span>
         </div>
         <div class="summary-item">
-            <strong id="deptCount">4</strong>
+            <strong><?php echo $dept_count; ?></strong>
             <span>Departments</span>
         </div>
     </div>
 
-    <!-- =========================
+    <!-- =========================================================
          RESULTS TABLE
-    ========================= -->
+    ========================================================= -->
     <section class="report-card">
         <div class="card-title">
             📋 Report Results
             <span style="font-size: 12px; font-weight: 400; color: var(--text-muted); margin-left: 8px;">
-                (Last updated: <span id="lastUpdated">Just now</span>)
+                (Last updated: <span id="lastUpdated"><?php echo date('H:i:s'); ?></span>)
             </span>
         </div>
 
         <div class="table-responsive">
-            <table class="report-table" id="reportTable">
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th>Department</th>
-                        <th>Student ID</th>
-                        <th>Enrolled</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="reportBody">
-                    <!-- Sample Data -->
-                    <tr>
-                        <td><strong>Amaka Michael</strong></td>
-                        <td>Computer Science</td>
-                        <td>CS-2024-012</td>
-                        <td>Jan 2024</td>
-                        <td><span class="status-badge">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>David Okafor</strong></td>
-                        <td>Software Engineering</td>
-                        <td>SE-2024-045</td>
-                        <td>Feb 2024</td>
-                        <td><span class="status-badge">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Chisom Nwosu</strong></td>
-                        <td>Information Technology</td>
-                        <td>IT-2024-078</td>
-                        <td>Mar 2024</td>
-                        <td><span class="status-badge">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Tunde Eze</strong></td>
-                        <td>Computer Science</td>
-                        <td>CS-2024-103</td>
-                        <td>Apr 2024</td>
-                        <td><span class="status-badge inactive">Inactive</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Fatima Ibrahim</strong></td>
-                        <td>Software Engineering</td>
-                        <td>SE-2024-156</td>
-                        <td>May 2024</td>
-                        <td><span class="status-badge">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Michael Okafor</strong></td>
-                        <td>Mathematics</td>
-                        <td>MTH-2024-201</td>
-                        <td>Jun 2024</td>
-                        <td><span class="status-badge">Active</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Ngozi Adeyemi</strong></td>
-                        <td>Physics</td>
-                        <td>PHY-2024-234</td>
-                        <td>Jul 2024</td>
-                        <td><span class="status-badge inactive">Inactive</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <?php if ($total > 0): ?>
+                <table class="report-table" id="reportTable">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Department</th>
+                            <th>Student ID</th>
+                            <th>Enrolled</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($students as $student):
+                            $status_class = 'active';
+                            if (strtolower($student['status']) === 'inactive' || strtolower($student['status']) === 'graduated') {
+                                $status_class = 'inactive';
+                            } elseif (strtolower($student['status']) === 'pending') {
+                                $status_class = 'pending';
+                            }
+                        ?>
+                            <tr>
+                                <td><strong><?php echo htmlspecialchars($student['name']); ?></strong></td>
+                                <td><?php echo htmlspecialchars($student['department']); ?></td>
+                                <td><?php echo htmlspecialchars($student['student_id']); ?></td>
+                                <td><?php echo date('M d, Y', strtotime($student['enrollment_date'])); ?></td>
+                                <td><span class="status-badge <?php echo $status_class; ?>"><?php echo htmlspecialchars($student['status']); ?></span></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <div class="no-results">
+                    <span class="icon">🔍</span>
+                    <h3>No students found</h3>
+                    <p>Try adjusting your filter criteria to see more results.</p>
+                </div>
+            <?php endif; ?>
         </div>
 
         <!-- Export Actions -->
@@ -262,7 +341,7 @@
 
 <script>
     // =========================================================
-    // MOBILE SIDEBAR TOGGLE (Matches your dashboard)
+    // MOBILE SIDEBAR TOGGLE
     // =========================================================
     document.addEventListener('DOMContentLoaded', () => {
         const sidebar = document.getElementById('dashboardSidebar');
@@ -308,95 +387,66 @@
     });
 
     // =========================================================
-    // REPORT GENERATION SIMULATION (UI Demo)
+    // EXPORT FUNCTIONS
     // =========================================================
 
-    function generateReport() {
-        const dept = document.getElementById('department').value;
-        const status = document.getElementById('status').value;
-
-        const btn = document.querySelector('.filter-actions .btn-primary');
-        btn.textContent = '⏳ Loading...';
-        btn.disabled = true;
-
-        setTimeout(() => {
-            document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
-
-            let total = 48;
-            let active = 42;
-            let inactive = 6;
-
-            if (dept !== 'all') {
-                total = Math.floor(Math.random() * 20) + 5;
-                active = Math.floor(Math.random() * total);
-                inactive = total - active;
-            }
-
-            if (status === 'active') {
-                total = active;
-            } else if (status === 'inactive') {
-                total = inactive;
-            }
-
-            document.getElementById('totalCount').textContent = total;
-            document.getElementById('activeCount').textContent = active;
-            document.getElementById('inactiveCount').textContent = inactive;
-            document.getElementById('deptCount').textContent = dept === 'all' ? '4' : '1';
-
-            const tbody = document.getElementById('reportBody');
-            const names = ['Amaka Michael', 'David Okafor', 'Chisom Nwosu', 'Tunde Eze', 'Fatima Ibrahim', 'Michael Okafor', 'Ngozi Adeyemi', 'Chidi Obi', 'Zainab Musa', 'Kofi Mensah'];
-            const depts = ['Computer Science', 'Software Engineering', 'Information Technology', 'Mathematics', 'Physics'];
-            const statuses = ['Active', 'Active', 'Active', 'Inactive', 'Active', 'Active', 'Inactive', 'Active', 'Active', 'Inactive'];
-
-            let html = '';
-            const count = Math.min(total, 7);
-
-            for (let i = 0; i < count; i++) {
-                const idx = Math.floor(Math.random() * names.length);
-                const name = names[idx];
-                const department = depts[Math.floor(Math.random() * depts.length)];
-                const studentStatus = statuses[Math.floor(Math.random() * statuses.length)];
-                const id = `${department.substring(0, 3).toUpperCase()}-2024-${String(Math.floor(Math.random() * 900) + 100)}`;
-                const date = `${Math.floor(Math.random() * 12) + 1}/${Math.floor(Math.random() * 28) + 1}/2024`;
-
-                const badgeClass = studentStatus === 'Active' ? 'status-badge' : 'status-badge inactive';
-
-                html += `
-                    <tr>
-                        <td><strong>${name}</strong></td>
-                        <td>${department}</td>
-                        <td>${id}</td>
-                        <td>${date}</td>
-                        <td><span class="${badgeClass}">${studentStatus}</span></td>
-                    </tr>
-                `;
-            }
-
-            tbody.innerHTML = html;
-
-            btn.textContent = '🔄 Generate';
-            btn.disabled = false;
-
-        }, 800);
-    }
-
-    function resetFilters() {
-        document.getElementById('department').value = 'all';
-        document.getElementById('status').value = 'all';
-        document.getElementById('dateRange').value = '2026-07';
-        generateReport();
-    }
-
     function exportCSV() {
-        alert('📥 CSV Export triggered!\n\nIn production, this would download a CSV file containing the filtered student data.');
+        // Collect table data
+        const table = document.getElementById('reportTable');
+        if (!table) {
+            alert('No data to export.');
+            return;
+        }
+
+        let csv = [];
+        // Get headers
+        const headers = [];
+        table.querySelectorAll('thead th').forEach(th => {
+            headers.push(th.textContent.trim());
+        });
+        csv.push(headers.join(','));
+
+        // Get rows
+        table.querySelectorAll('tbody tr').forEach(tr => {
+            const row = [];
+            tr.querySelectorAll('td').forEach(td => {
+                // Clean text (remove extra spaces, commas)
+                let text = td.textContent.trim();
+                // If contains comma or quotes, wrap in quotes
+                if (text.includes(',') || text.includes('"')) {
+                    text = '"' + text.replace(/"/g, '""') + '"';
+                }
+                row.push(text);
+            });
+            csv.push(row.join(','));
+        });
+
+        const csvContent = csv.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        link.setAttribute('href', url);
+        link.setAttribute('download', 'student_report_' + new Date().toISOString().slice(0,10) + '.csv');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     }
 
     function exportPDF() {
-        alert('📄 PDF Export triggered!\n\nIn production, this would generate a beautiful PDF report for printing or sharing.');
+        alert('📄 PDF Export will be available soon.\n\nIn production, this would generate a PDF using libraries like dompdf or TCPDF.');
+        // You could implement server-side PDF generation using dompdf:
+        // window.location.href = 'export_pdf.php?' + window.location.search.substring(1);
     }
 
     function copyTable() {
         const table = document.getElementById('reportTable');
+        if (!table) {
+            alert('No data to copy.');
+            return;
+        }
+
+        // Create a range and select the table
         const range = document.createRange();
         range.selectNode(table);
         window.getSelection().removeAllRanges();
@@ -412,9 +462,14 @@
         window.getSelection().removeAllRanges();
     }
 
-    // Auto-generate report on page load
+    // Auto-refresh last updated time on filter change
     document.addEventListener('DOMContentLoaded', () => {
-        generateReport();
+        const form = document.getElementById('filterForm');
+        if (form) {
+            form.addEventListener('submit', () => {
+                document.getElementById('lastUpdated').textContent = new Date().toLocaleTimeString();
+            });
+        }
     });
 </script>
 
