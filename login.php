@@ -89,10 +89,12 @@
 
                 <div class="feature-orb">
 
+                <a href="index.php" class="feature-orb-link">
                     <span>
                         E
                     </span>
-
+                </a>    
+                
                 </div>
 
 
@@ -138,7 +140,7 @@
                     </h2>
 
                     <p>
-                        Login to your EduTrack account.
+                        Sign in to your EduTrack account.
                     </p>
 
                 </div>
@@ -294,7 +296,7 @@
                 >
 
                     <span id="buttonText">
-                        Login
+                        Sign in
                     </span>
 
                     <span class="button-arrow">
